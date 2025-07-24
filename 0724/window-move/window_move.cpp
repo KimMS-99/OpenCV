@@ -4,7 +4,7 @@ using namespace std;
 int main()
 {
 	Mat image1(300, 400, CV_8U, Scalar(255)); // 흰색바탕 영상 생성
-	Mat image2(300, 400, CV_8U, Scalar(100)); // 회색바탕 영상 생성
+	Mat image2(300, 400, CV_8U, Scalar(128)); // 회색바탕 영상 생성
 	string title1 = "white창 제어";
 	string title2 = "gray 창 제어";
 
