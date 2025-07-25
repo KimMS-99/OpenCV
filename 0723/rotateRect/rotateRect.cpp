@@ -36,7 +36,7 @@ int main()
 	cout << "size: " << rot_rect.size << endl;
 	cout << "angle: " << rot_rect.angle << endl;
 
-	imshow("회전사각형", image);
+	imshow("RotateRect", image);
 	waitKey(0);
 	return 0;
 }

@@ -40,6 +40,8 @@ int main()
 		case 0x280000:
 			cout << "아래쪽 화살표키 입력" << endl;
 			break;
+		default:
+			cout << "입력키 : " << key << endl;
 		}
 	}
 	return 0;

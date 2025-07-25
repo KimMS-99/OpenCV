@@ -25,6 +25,7 @@ int main()
 	return 0;
 }
 
+// 행렬의 생성과 초기화
 void MatOp1()
 {
 	Mat img1; // empty matrix
@@ -53,14 +54,17 @@ void MatOp1()
 	mat5.setTo(1.f);
 }
 
+// 행렬의 복사
 void MatOp2()
 {
 	Mat img1 = imread("dog.bmp");
 
+	// 복사 생성자와 대입 연산자를 이용하여 img1의 복사본 영상 img2, img3 생성(얕은 복사)
 	Mat img2 = img1;
 	Mat img3;
 	img3 = img1;
 
+	// Mat::clone()과 Mat::copyTo() 함수를 이용하여 img1의 복사본 영상 img4, img5를 생성(깊은 복사)
 	Mat img4 = img1.clone();
 	Mat img5;
 	img1.copyTo(img5);
@@ -77,6 +81,7 @@ void MatOp2()
 	destroyAllWindows();
 }
 
+// 부분 행렬 추출
 void MatOp3()
 {
 	Mat img1 = imread("cat.bmp");
@@ -87,9 +92,11 @@ void MatOp3()
 		return;
 	}
 
-	Mat img2 = img1(Rect(220, 120, 340, 240));
-	Mat img3 = img1(Rect(220, 120, 340, 240)).clone();
+	// img1 영상의 (220, 120)좌표부터 340X240 크기만큼의 사각혀우 부분 영상을 추출
+	Mat img2 = img1(Rect(220, 120, 340, 240));		   // 얕은 복사
+	Mat img3 = img1(Rect(220, 120, 340, 240)).clone(); // 깊은복사
 
+	// img2 영상을 반전하여 그 결과를 다시 img2에 저장한다.
 	img2 = ~img2;
 
 	imshow("img1", img1);
@@ -100,10 +107,13 @@ void MatOp3()
 	destroyAllWindows();
 }
 
+// 행렬의 원소 값 참조
 void MatOp4()
 {
 	Mat mat1 = Mat::zeros(3, 4, CV_8UC1);
 
+	// Mat::at()를 이용한 행렬의 원소 값 참조
+	// 행렬의 모든 원소 값을 1씩 증가
 	for (int j = 0; j < mat1.rows; j++)
 	{
 		for (int i = 0; i < mat1.cols; i++)
@@ -112,6 +122,8 @@ void MatOp4()
 		}
 	}
 
+	// Mat::ptr()를 이용한 행렬의 원소 값 참조
+	// 행렬의 모든 원소 값을 1씩 증가
 	for (int j = 0; j < mat1.rows; j++)
 	{
 		uchar *p = mat1.ptr<uchar>(j);
@@ -121,6 +133,7 @@ void MatOp4()
 		}
 	}
 
+	// MatIterator_ 반복자를 사용하여 Mat1행렬의 모든 원소 값을 1씩 증가시킴
 	for (MatIterator_<uchar> it = mat1.begin<uchar>(); it != mat1.end<uchar>(); ++it)
 	{
 		(*it)++;
@@ -130,6 +143,7 @@ void MatOp4()
 		 << mat1 << endl;
 }
 
+// 행렬 정보 참조하기
 void MatOp5()
 {
 	Mat img1 = imread("lenna.bmp");
@@ -138,6 +152,7 @@ void MatOp5()
 	cout << "Height: " << img1.rows << endl;
 	cout << "Channels: " << img1.channels() << endl;
 
+	// 그레이스케일(흑백) 영상인지 컬러(BGR) 영상인지 확인
 	if (img1.type() == CV_8UC1)
 		cout << "img1 is a grayscale image." << endl;
 	else if (img1.type() == CV_8UC3)
@@ -149,6 +164,7 @@ void MatOp5()
 		 << mat1 << endl;
 }
 
+// 행렬 연산
 void MatOp6()
 {
 	float data[] = {1, 1, 2, 3};
@@ -170,15 +186,18 @@ void MatOp6()
 		 << mat1 * mat2 << endl;
 }
 
+// 크기 및 타입 변환 함수
 void MatOp7()
 {
 	Mat img1 = imread("lenna.bmp", IMREAD_GRAYSCALE);
 
 	Mat img1f;
-	img1.convertTo(img1f, CV_32FC1);
+	img1.convertTo(img1f, CV_32FC1); // 행렬의 차입 변경
 
 	uchar data1[] = {1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12};
 	Mat mat1(3, 4, CV_8UC1, data1);
+	// 3x4 행렬을 1x12 행렬로 재구성 (데이터는 공유됨 - 얕은 복사)
+	// 따라서 mat2의 값을 변경하면 mat1도 함께 변경됨
 	Mat mat2 = mat1.reshape(0, 1);
 
 	cout << "mat1:\n"
